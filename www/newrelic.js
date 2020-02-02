@@ -1,0 +1,1 @@
+//add your Browser snippet here. Remove the <script></script> tags. Be sure to have enabled Distributed Tracing in Browser beforehand.

@@ -1,9 +1,6 @@
-window.addEventListener('DOMContentLoaded', console.log('hello'));
-
 function checkShiny() {
     if (typeof Shiny == 'object') {
         console.log("shiny loaded");
-        console.log(Shiny.shinyapp.$socket.url);
         newrelic.setCustomAttribute('websocketURL', Shiny.shinyapp.$socket.url);
         newrelic.setCustomAttribute('websocketState', Shiny.shinyapp.$socket.readyState);
         newrelic.setCustomAttribute('websocketBufferedAmount', Shiny.shinyapp.$socket.bufferedAmount);

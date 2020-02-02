@@ -1,4 +1,8 @@
 # Monitoring R Shiny with New Relic
+[View Demo Application](https://gspncr.shinyapps.io/newR/)
+
+![](https://i.imgur.com/TdpLsJO.png)
+![](https://i.imgur.com/s0Qgsse.png)
 
 ## About
 

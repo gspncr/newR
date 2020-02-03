@@ -3,6 +3,7 @@
 
 ![](https://i.imgur.com/TdpLsJO.png)
 ![](https://i.imgur.com/s0Qgsse.png)
+![](https://i.imgur.com/Mgehb01.png)
 
 ## About
 
@@ -62,6 +63,20 @@ This allows you to set the name of the Page Action in New Relic. You should use 
 >
 > If you are uploading to say, shiny apps.io then the reference to the contents in www/ must be appended with the name of the application. For instance, uploading my project to gspncr.shinyapps.io/newR, any files I am referencing in www/ must be referenced such as: /newR/newrelic.js
 
-## Logging
+## Logs in context
+
+![](https://i.imgur.com/cTuAPRq.png)
+
+Send log messages through `nrLogger()` function. If you pass the ID returned when you call *tracer()* or *errorTracer()* then the Log message will be linked to the trace. If you are sending a Log message without an associated trace, then a new trace ID will be generated for you. You can later link these to new traces.
+
+All arguments apart from **message** can be automatically created. Even then, a placeholder is passed for *message* but there is not much point calling this function if you have no message to send.
+
+1. `serviceName` pass the name of the service. This will default to **Custom R Service**. You can also override this globally by setting the variable *RServiceName* in the distributed trace source file.
+2. `hostName` pass this to override the name of the host. This will automatically be set with the nodename of the host running the R script. 
+3. `traceId` pass this to reference an existing trace. This will automatically create a new UUID if you do not pass a *traceId* - returned by `trace()` or `errorTrace()` functions.
+4. `timestamp` pass this in EPOCH MS time. This will automatically be set to the current EPOCH time, according to the timezone of the running node.
+5. `message` pass this to include the log message. This will be set with placeholder text if not set.
+
+### Logging of the NR Tracing Source
 
 The script will write to debug.log and info.log. These can be monitored using New Relic Logs for complete visibility. The outputs into those log files, are particularly for tracing. You can however use New Relic Logs to of course monitor any other Log files you desire.

@@ -21,7 +21,7 @@ server <- function(input,output,session){
     output$value <- renderText("trace sent to new relic")
   })
   observeEvent(input$event, {
-    etr = errorTracer(name = "/error", errorName = "BadError", errorText = "oh no test failed!")
+    etr = errorTracer(name = "/error", errorName = "BadError", errorText = "oh no test failed!", userSessionId = session$token)
     output$eventValue <- renderText("error trace sent to new relic")
   })
 }

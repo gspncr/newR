@@ -2,7 +2,7 @@ library(httr)
 library(uuid)
 library(log4r)
 
-NRAPIKey <-"<Insert API Key>"
+NRAPIKey <-"Insert API Key"
 RServiceName <- "Custom R Service"
 
 logger <- create.logger(logfile = "debug.log", level = "DEBUG")
@@ -61,7 +61,7 @@ tracer <- function(serviceName, hostName, duration, name, UUID, spanID, descipti
   r <- POST("https://trace-api.newrelic.com/trace/v1", add_headers("Api-Key" = NRAPIKey, "Data-Format" = "newrelic", "Data-Format-Version" = 1, 
                                                                    "Content-Type" = "application/json"), body = readyTrace, encode="json")
   info(logger, r)
-  return(r)
+  return(UUID)
 }
 errorTracer <- function(serviceName, hostName, duration, name, UUID, spanID, errorName, desciption, userSessionId, errorText){
   if (missing(serviceName) || is.null(serviceName)){
@@ -124,5 +124,42 @@ errorTracer <- function(serviceName, hostName, duration, name, UUID, spanID, err
   r <- POST("https://trace-api.newrelic.com/trace/v1", add_headers("Api-Key" = NRAPIKey, "Data-Format" = "newrelic", "Data-Format-Version" = 1, 
                                                                    "Content-Type" = "application/json"), body = readyTrace, encode="json")
   info(logger, r)
-  return(r)
+  return(UUID)
+}
+nrLogger <- function(serviceName, hostName, traceId, timestamp, message){
+  if (missing(serviceName) || is.null(serviceName)){
+    serviceName = RServiceName
+  }
+  if (missing(hostName) || is.null(hostName)){
+    hostName = Sys.info()['nodename']
+  }
+  if (missing(traceId) || is.null(traceId)){
+    traceId = UUIDgenerate()
+  }
+  if (missing(timestamp) || is.null(timestamp)){
+    timestamp = as.numeric(as.POSIXct(Sys.time()))
+  }
+  if (missing(message) || is.null(message)){
+    message = "Log message from your Custom R Service"
+  }
+  log = '[{
+     "common": {
+       "attributes": {
+         "service-name": "%s",
+         "hostname": "%s",
+         "trace.id": "%s"
+       }
+     },
+     "logs": [{
+         "timestamp": %s,
+         "message": "%s"
+       }]
+  }]'
+  logReady = sprintf(log,serviceName, hostName, traceId, timestamp, message)
+  print(logReady)
+  debug(logger, logReady)
+  r <- POST("https://log-api.newrelic.com/log/v1", add_headers("X-Insert-Key" = NRAPIKey,  
+                                                               "Content-Type" = "application/json"), body = logReady, encode="json")
+  info(logger, r)
+  return(traceId)
 }

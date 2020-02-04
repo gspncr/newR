@@ -2,7 +2,7 @@ library(httr)
 library(uuid)
 library(log4r)
 
-NRAPIKey <-"Insert API Key"
+NRAPIKey <-"insert API key"
 RServiceName <- "Custom R Service"
 
 logger <- create.logger(logfile = "debug.log", level = "DEBUG")
@@ -156,10 +156,43 @@ nrLogger <- function(serviceName, hostName, traceId, timestamp, message){
        }]
   }]'
   logReady = sprintf(log,serviceName, hostName, traceId, timestamp, message)
-  print(logReady)
+  #print(logReady)
   debug(logger, logReady)
   r <- POST("https://log-api.newrelic.com/log/v1", add_headers("X-Insert-Key" = NRAPIKey,  
                                                                "Content-Type" = "application/json"), body = logReady, encode="json")
   info(logger, r)
   return(traceId)
+}
+newRMetric <- function(metricName, metricValue, hostName, timestamp, serviceName){
+  if (missing(serviceName) || is.null(serviceName)){
+    serviceName = RServiceName
+  }
+  if (missing(hostName) || is.null(hostName)){
+    hostName = Sys.info()['nodename']
+  }
+  if (missing(timestamp) || is.null(timestamp)){
+    timestamp = as.numeric(as.POSIXct(Sys.time()))
+  }
+  if (missing(metricName) || is.null(metricName)){
+    metricName = "Custom R Metric"
+  }
+  if (missing(metricValue) || is.null(metricValue)){
+    metricValue = 0
+  }
+  metric = '
+      [{ 
+              "metrics":[{ 
+                 "name":"%s", 
+                 "type":"gauge",
+                 "value":%s,
+                 "attributes":{"host.name":"%s", "service.name":"%s"},
+                 "timestamp": %s 
+                 }] 
+          }]
+      '
+  metricsReady = sprintf(metric, metricName, metricValue, hostName, serviceName, timestamp)
+  r <- POST("https://metric-api.newrelic.com/metric/v1", add_headers("Api-Key" = NRAPIKey,  
+                                                                     "Content-Type" = "application/json"), body = metricsReady, encode="json")
+  debug(logger, r)
+  return(r)
 }

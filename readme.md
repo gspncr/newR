@@ -1,4 +1,4 @@
-# Monitoring R Shiny with New Relic
+# Monitoring R (and R Shiny) with New Relic
 ### Contents:
 1. [View Demo Application](https://gspncr.shinyapps.io/newR/)
 2. [About](#about)
@@ -99,4 +99,4 @@ You can use the function `newRMetric()` to send timeseries dimensional metrics t
 
 **Metrics in the demo app**
 
-In the demo app, I have added [plot_the_dots](https://github.com/nhs-r-community/plot_the_dots) by [NHS R Community](https://github.com/nhs-r-community). This is used for the example of sending Metrics into New Relic. For the demonstration purpose, the demo app takes the values to be plot (out of the Values column in the example spreadsheet) and they are sent into New Relic. This is not really a use case itself for Metrics one might typically come across, but it is nice enough for us to demonstrate.
+In the demo app, I have added [plot_the_dots](https://github.com/nhs-r-community/plot_the_dots) by [NHS-R Community](https://github.com/nhs-r-community). This is used for the example of sending Metrics into New Relic. For the demonstration purpose, the demo app takes the values to be plot (out of the Values column in the example spreadsheet) and they are sent into New Relic. This is not really a use case itself for Metrics one might typically come across, but it is nice enough for us to demonstrate.

@@ -96,3 +96,7 @@ You can use the function `newRMetric()` to send timeseries dimensional metrics t
 3. `hostName` pass this to override the name of the host. This will automatically be set with the nodename of the host running the R script.
 4. `serviceName` pass the name of the service. This will default to **Custom R Service**. You can also override this globally by setting the variable *RServiceName* in the distributed trace source file.
 5. `timestamp` pass this in EPOCH MS time. This will automatically be set to the current EPOCH time, according to the timezone of the running node.
+
+**Metrics in the demo app**
+
+In the demo app, I have added [plot_the_dots](https://github.com/nhs-r-community/plot_the_dots) by [NHS R Community](https://github.com/nhs-r-community). This is used for the example of sending Metrics into New Relic. For the demonstration purpose, the demo app takes the values to be plot (out of the Values column in the example spreadsheet) and they are sent into New Relic. This is not really a use case itself for Metrics one might typically come across, but it is nice enough for us to demonstrate.

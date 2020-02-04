@@ -1,5 +1,11 @@
 # Monitoring R Shiny with New Relic
-[View Demo Application](https://gspncr.shinyapps.io/newR/)
+### Contents:
+1. [View Demo Application](https://gspncr.shinyapps.io/newR/)
+2. [About](#about)
+3. [Traces](#sending-traces)
+4. [Browser](#r-shiny-in-the-browser)
+5. [Logs in context](#logs-in-context)
+6. [Metrics](#metrics)
 
 ![](https://i.imgur.com/TdpLsJO.png)
 ![](https://i.imgur.com/s0Qgsse.png)

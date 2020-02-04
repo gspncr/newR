@@ -80,3 +80,13 @@ All arguments apart from **message** can be automatically created. Even then, a 
 ### Logging of the NR Tracing Source
 
 The script will write to debug.log and info.log. These can be monitored using New Relic Logs for complete visibility. The outputs into those log files, are particularly for tracing. You can however use New Relic Logs to of course monitor any other Log files you desire.
+
+## Metrics
+
+You can use the function `newRMetric()` to send timeseries dimensional metrics to New Relic. There is a new series of arguments that are supported for metric data:
+
+1. `metricName`  the name of the metric. This will default to **Custom R Metric**
+2. `metricValue` the integer or double value of the metric. This will default to **0**
+3. `hostName` pass this to override the name of the host. This will automatically be set with the nodename of the host running the R script.
+4. `serviceName` pass the name of the service. This will default to **Custom R Service**. You can also override this globally by setting the variable *RServiceName* in the distributed trace source file.
+5. `timestamp` pass this in EPOCH MS time. This will automatically be set to the current EPOCH time, according to the timezone of the running node.

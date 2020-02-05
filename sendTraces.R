@@ -20,6 +20,8 @@ ui <- fluidPage(
   verbatimTextOutput("logTraceValue"),
   actionButton("logErrorTrace", "Send error trace and log"),
   verbatimTextOutput("logErrorTraceValue"),
+  actionButton("sendEvent", "Send an event"),
+  verbatimTextOutput("sendEventValue"),
   tags$body(tags$script(src = "/nr-attrs.js")),
   h3("Upload the sample spreadsheet to plot a chart, which sends plot values to New Relic"),
   p('download sample spreadhsheet:    https://github.com/gspncr/newR/blob/master/upload_example.xlsx?raw=true'),
@@ -59,6 +61,10 @@ server <- function(input,output,session){
     log = nrLogger(traceId = etr, message="message sent from logErrorTrace button!!")
     print(log)
     output$logErrorTraceValue <- renderText("error trace and log sent to new relic")
+  })
+  observeEvent(input$sendEvent, {
+    nEvent = newREvent()
+    output$sendEventValue <- renderText("event sent to new relic")
   })
   output$spcPlot <- renderPlot({
     

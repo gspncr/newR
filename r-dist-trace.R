@@ -196,3 +196,45 @@ newRMetric <- function(metricName, metricValue, hostName, timestamp, serviceName
   debug(logger, r)
   return(r)
 }
+newREvent <- function(eventType, RTestName, RTestResult, RTestTimeTaken, hostName, sessionID, serviceName){
+  if (missing(eventType) || is.null(eventType)){
+    eventType = "RCustomEvent"
+  }
+  if (missing(RTestName) || is.null(RTestName)){
+    RTestName = "Plot The Dots Example"
+  }
+  if (missing(RTestResult) || is.null(RTestResult)){
+    RTestResult = "Success"
+  }
+  if (missing(RTestTimeTaken) || is.null(RTestTimeTaken)){
+    RTestTimeTaken <- runif(1, 3.0, 100.5)
+  }
+  if (missing(hostName) || is.null(hostName)){
+    hostName = Sys.info()['nodename']
+  }
+  if (missing(sessionID) || is.null(sessionID)){
+    sessionID = UUIDgenerate()
+  }
+  if (missing(serviceName) || is.null(serviceName)){
+    serviceName = RServiceName
+  }
+  event = '
+        [
+          {
+            "eventType":"%s",
+            "RTestName":"%s",
+            "RTestResult":"%s",
+            "RTestTimeTaken": %s,
+            "hostName":"%s",
+            "sessionID":"%s",
+            "serviceName":"%s"
+          }
+        ]
+      '
+  readyEvent = sprintf(event, eventType, RTestName, RTestResult, RTestTimeTaken, hostName, sessionID, serviceName)
+
+  r <- POST("https://insights-collector.newrelic.com/v1/accounts/1147177/events", add_headers("X-Insert-Key" = NRAPIKey,  
+                                                                                              "Content-Type" = "application/json"), body = readyEvent, encode="json")
+  info(r)
+  return(r)
+}

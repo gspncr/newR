@@ -6,10 +6,12 @@
 4. [Browser](#r-shiny-in-the-browser)
 5. [Logs in context](#logs-in-context)
 6. [Metrics](#metrics)
+7. [Events](#events)
 
 ![](https://i.imgur.com/TdpLsJO.png)
 ![](https://i.imgur.com/s0Qgsse.png)
 ![](https://i.imgur.com/Mgehb01.png)
+![](https://i.imgur.com/y6AZIAp.png)
 
 ## About
 
@@ -100,3 +102,15 @@ You can use the function `newRMetric()` to send timeseries dimensional metrics t
 **Metrics in the demo app**
 
 In the demo app, I have added [plot_the_dots](https://github.com/nhs-r-community/plot_the_dots) by [NHS-R Community](https://github.com/nhs-r-community). This is used for the example of sending Metrics into New Relic. For the demonstration purpose, the demo app takes the values to be plot (out of the Values column in the example spreadsheet) and they are sent into New Relic. This is not really a use case itself for Metrics one might typically come across, but it is nice enough for us to demonstrate.
+
+## Events
+
+You can use the function `newREvent()` to send custom Events to New Relic. Note, this function is designed with the demo app in mind - you should modify this to cater for your own use case. There is a series of arguments that are supported:
+
+1. `eventType` the name of the Event as should appear in New Relic. You will find this in the data explorer view. This will default to *RCustomEvent*
+2. `RTestName` this is specific to the demo apps use case. This defaults to *Plot the Dots Example*
+3. `RTestResult` this is specific to the demo apps use case. This defaults to *Success*
+4. `RTestTimeTaken` this is specific to the demo apps use case. This defaults to a random integer.
+5. `hostName` set this to override. This is automatically detected as the nodes name running the R script.
+6. `sessionID` set this using session$token per other areas of the library. Otherwise a UUID will be generated.
+7. `serviceName` this is the name of the service to appear. This is automatically set with the default of the source file, *Custom R Service*

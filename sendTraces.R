@@ -6,7 +6,7 @@ library(qicharts2)
 
 source("r-dist-trace.R")
 
-options(shiny.trace = FALSE, shiny.autoreload = TRUE, port=6231)
+options(shiny.trace = FALSE, shiny.autoreload = TRUE)
 
 ui <- fluidPage(
   tags$head(tags$script(src = "/newrelic.js")),
@@ -63,7 +63,7 @@ server <- function(input,output,session){
     output$logErrorTraceValue <- renderText("error trace and log sent to new relic")
   })
   observeEvent(input$sendEvent, {
-    nEvent = newREvent()
+    nrEvent = newREvent()
     output$sendEventValue <- renderText("event sent to new relic")
   })
   output$spcPlot <- renderPlot({

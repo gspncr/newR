@@ -232,9 +232,8 @@ newREvent <- function(eventType, RTestName, RTestResult, RTestTimeTaken, hostNam
         ]
       '
   readyEvent = sprintf(event, eventType, RTestName, RTestResult, RTestTimeTaken, hostName, sessionID, serviceName)
-
   r <- POST("https://insights-collector.newrelic.com/v1/accounts/1147177/events", add_headers("X-Insert-Key" = NRAPIKey,  
                                                                                               "Content-Type" = "application/json"), body = readyEvent, encode="json")
-  info(r)
+  info(logger, r)
   return(r)
 }

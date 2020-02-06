@@ -80,7 +80,14 @@ server <- function(input,output,session){
     }
     
     names(df) <- c("Date", "Value")
-    trace.end(timeStart = traceStart, userSessionId = session$token, name = "PlotTheDots", description = "upload and processing for qic chart plotter")
+    traceEnd = trace.end(timeStart = traceStart, userSessionId = session$token, name = "PlotTheDots", description = "upload and processing for qic chart plotter")
+    #log = nrLogger(traceId = traceEnd, message=df[[2]])
+
+    for (value in df[[2]]){
+      log = nrLogger(traceId = traceEnd, message=value)
+    }
+    
+    
     df %>%
       qic(Date, Value,
           data     = .)

@@ -23,8 +23,9 @@ ui <- fluidPage(
   actionButton("sendEvent", "Send an event"),
   verbatimTextOutput("sendEventValue"),
   tags$body(tags$script(src = "/nr-attrs.js")),
-  h3("Upload the sample spreadsheet to plot a chart, which sends plot values to New Relic"),
-  p('download sample spreadhsheet:    https://github.com/gspncr/newR/blob/master/upload_example.xlsx?raw=true'),
+  h3("Upload the sample spreadsheet to plot a chart"),
+  h5("This sends plot values as Event data to New Relic, and a trace is added with time taken"),
+  h6('download sample spreadhsheet:    https://github.com/gspncr/newR/blob/master/upload_example.xlsx?raw=true'),
   sidebarLayout(
     sidebarPanel(
       fileInput("fileUpload", "Upload Excel")
@@ -72,17 +73,17 @@ server <- function(input,output,session){
   })
   output$spcPlot <- renderPlot({
     df <- read_excel(input$fileUpload$datapath)
+    traceStart = trace.start()
     #print(df[[2]])
     for (value in df[[2]]){
       nrMetric = newRMetric(metricName="PlotTheDotsValue", metricValue=value)
     }
     
     names(df) <- c("Date", "Value")
-    
+    trace.end(timeStart = traceStart, userSessionId = session$token, name = "PlotTheDots", description = "upload and processing for qic chart plotter")
     df %>%
       qic(Date, Value,
           data     = .)
-    
   })
 }
 

@@ -17,7 +17,7 @@
 *Flexible data representation - bring custom Event data too*
 ![](https://i.imgur.com/y6AZIAp.png)
 *Compare performance across processing nodes*
-![](https://i.imgur.com/yzM0BeM.png)
+![](https://i.imgur.com/vC3Ywnm.png)
 
 ## About
 

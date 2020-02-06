@@ -34,6 +34,10 @@ ui <- fluidPage(
     mainPanel(
       plotOutput("spcPlot")
     )
+  ),
+  tags$style(type="text/css",
+             ".shiny-output-error { visibility: hidden; }",
+             ".shiny-output-error:before { visibility: hidden; }"
   )
 )
 
@@ -67,7 +71,6 @@ server <- function(input,output,session){
     output$sendEventValue <- renderText("event sent to new relic")
   })
   output$spcPlot <- renderPlot({
-    
     df <- read_excel(input$fileUpload$datapath)
     #print(df[[2]])
     for (value in df[[2]]){

@@ -8,7 +8,7 @@ RServiceName <- "Custom R Service"
 logger <- create.logger(logfile = "debug.log", level = "DEBUG")
 logger <- create.logger(logfile = "info.log", level = "INFO")
 
-tracer <- function(serviceName, hostName, duration, name, UUID, spanID, desciption, userSessionId){
+tracer <- function(serviceName, hostName, duration, name, UUID, spanID, description, userSessionId){
   if (missing(serviceName) || is.null(serviceName)){
     serviceName = RServiceName
   } 
@@ -28,8 +28,8 @@ tracer <- function(serviceName, hostName, duration, name, UUID, spanID, descipti
   if (missing(name) || is.null(name)){
     name = 'Unnamed Call'
   }
-  if (missing(desciption) || is.null(name)){
-    desciption = "Sent using https://github.com/gspncr/newR"
+  if (missing(description) || is.null(name)){
+    description = "Sent using https://github.com/gspncr/newR"
   }
   if (missing(userSessionId) || is.null(name)){
     userSessionId = "Use session$token to include session Identifiers"
@@ -56,7 +56,7 @@ tracer <- function(serviceName, hostName, duration, name, UUID, spanID, descipti
              ]
            }
          ]'
-  readyTrace = sprintf(traceDyn, serviceName, hostName, UUID, spanID, duration, name, desciption, userSessionId)
+  readyTrace = sprintf(traceDyn, serviceName, hostName, UUID, spanID, duration, name, description, userSessionId)
   debug(logger, readyTrace)
   r <- POST("https://trace-api.newrelic.com/trace/v1", add_headers("Api-Key" = NRAPIKey, "Data-Format" = "newrelic", "Data-Format-Version" = 1, 
                                                                    "Content-Type" = "application/json"), body = readyTrace, encode="json")
@@ -236,4 +236,20 @@ newREvent <- function(eventType, RTestName, RTestResult, RTestTimeTaken, hostNam
                                                                                               "Content-Type" = "application/json"), body = readyEvent, encode="json")
   info(logger, r)
   return(r)
+}
+trace.start <- function(){
+  timeStart = as.numeric(as.POSIXct(Sys.time()))
+  return(timeStart)
+}
+trace.end <- function(timeStart, userSessionId, name, description){
+  if(missing(timeStart)){
+    timeStart = as.numeric(as.POSIXct(Sys.time()))
+  }
+  if (missing(userSessionId) || is.null(userSessionId)){
+    userSessionId = UUIDgenerate()
+  } 
+  timeEnd = as.numeric(as.POSIXct(Sys.time()))
+  timeTotal = timeEnd - timeStart
+  tracer(duration = timeTotal, userSessionId = userSessionId, name = name, description = description)
+  return(userSessionId)
 }

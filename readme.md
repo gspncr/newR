@@ -12,11 +12,11 @@
 ![](https://i.imgur.com/TdpLsJO.png)
 *All transactions through R Shiny. Breakdowns, errors highlighted, perf stats*
 ![](https://i.imgur.com/s0Qgsse.png)
-*Logs in context - linked to their associated trace. Easy drilldown - no context switching!*
+*All Logs in context, fast, easy to query, no indexing necessary, create alerts from UI*
 ![](https://i.imgur.com/Mgehb01.png)
-*All Logs in one view, fast, easy to query, no indexing necessary, create alerts from UI*
-![](https://i.imgur.com/y6AZIAp.png)
 *Flexible data representation - bring custom Event data too*
+![](https://i.imgur.com/y6AZIAp.png)
+*Compare performance across processing nodes*
 ![](https://i.imgur.com/yzM0BeM.png)
 
 ## About
